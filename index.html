@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Huellas Animadas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100vh;
+      background: linear-gradient(to top, white, #cfeaff);
+      font-family: 'Quicksand', sans-serif;
+      position: relative;
+    }
+
+    /* Formulario de contraseña */
+    #passwordForm {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #passwordForm input {
+      padding: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    #passwordForm button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    #errorMessage {
+      color: red;
+      font-size: 16px;
+      display: none;
+    }
+
+    /* Ocultar contenido hasta validar contraseña */
+    #contenido {
+      display: none;
+    }
+
+    .huella {
+      width: 40px;
+      height: 60px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      opacity: 0;
+      animation: aparecer 1s forwards;
+    }
+
+    /* Huellas descalzas (0s a 20s) */
+    .paso1 { background-image: url('img/huella1.png'); left: 42%; animation-delay: 1s; top: 85%; }
+    .paso2 { background-image: url('img/huella2.png'); left: 48%; animation-delay: 4s; top: 77%; }
+    .paso3 { background-image: url('img/huella1.png'); left: 42%; animation-delay: 7s; top: 69%; }
+    .paso4 { background-image: url('img/huella2.png'); left: 48%; animation-delay: 10s; top: 61%; }
+    .paso5 { background-image: url('img/huella1.png'); left: 42%; animation-delay: 13s; top: 53%; }
+    .paso6 { background-image: url('img/huella2.png'); left: 48%; animation-delay: 16s; top: 45%; }
+
+    /* Huellas con zapatos (1er par) */
+    .paso7  { background-image: url('img/huella3.png'); left: 36%; animation-delay: 41s; top: 35%; }
+    .paso8  { background-image: url('img/huella4.png'); left: 48%; animation-delay: 44s; top: 28%; }
+    .paso9  { background-image: url('img/huella3.png'); left: 36%; animation-delay: 47s; top: 21%; }
+    .paso10 { background-image: url('img/huella4.png'); left: 48%; animation-delay: 50s; top: 14%; }
+    .paso11 { background-image: url('img/huella3.png'); left: 36%; animation-delay: 53s; top: 7%; }
+    .paso12 { background-image: url('img/huella4.png'); left: 48%; animation-delay: 56s; top: 0%; }
+
+    /* Segundo par de huellas con zapatos (más separado hacia la derecha) */
+    .paso13 { background-image: url('img/huella3.png'); left: 56%; animation-delay: 41s; top: 35%; }
+    .paso14 { background-image: url('img/huella4.png'); left: 68%; animation-delay: 44s; top: 28%; }
+    .paso15 { background-image: url('img/huella3.png'); left: 56%; animation-delay: 47s; top: 21%; }
+    .paso16 { background-image: url('img/huella4.png'); left: 68%; animation-delay: 50s; top: 14%; }
+    .paso17 { background-image: url('img/huella3.png'); left: 56%; animation-delay: 53s; top: 7%; }
+    .paso18 { background-image: url('img/huella4.png'); left: 68%; animation-delay: 56s; top: 0%; }
+
+    @keyframes aparecer {
+      to { opacity: 1; }
+    }
+
+    .mensaje {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #222;
+      font-size: 20px;
+      line-height: 1.5;
+      animation: desaparecer 3s ease-in-out forwards;
+      animation-delay: 40s;
+    }
+
+    .linea {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .linea1 {
+      width: 0;
+      animation: escribir1 10s steps(30, end) forwards;
+      animation-delay: 20s;
+    }
+
+    .linea2 {
+      width: 0;
+      animation: escribir2 10s steps(40, end) forwards;
+      animation-delay: 30s;
+    }
+
+    @keyframes escribir1 {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes escribir2 {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes desaparecer {
+      to { opacity: 0; }
+    }
+
+    /* Estilo para el botón de música en la esquina inferior izquierda */
+    #musicButton {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      width: 50px;
+      height: 50px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 25px;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #musicButton::before {
+      content: '▶'; /* Símbolo de play */
+      font-size: 25px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Formulario de Contraseña -->
+  <div id="passwordForm">
+    <input type="password" id="passwordInput" placeholder="Introduce la contraseña" />
+    <button onclick="validarContraseña()">Acceder</button>
+    <div id="errorMessage">Contraseña incorrecta. Intenta nuevamente.</div>
+  </div>
+
+  <!-- Contenido oculto hasta validar contraseña -->
+  <div id="contenido">
+
+    <!-- Huellas descalzas -->
+    <div class="huella paso1"></div>
+    <div class="huella paso2"></div>
+    <div class="huella paso3"></div>
+    <div class="huella paso4"></div>
+    <div class="huella paso5"></div>
+    <div class="huella paso6"></div>
+
+    <!-- Huellas con zapatos (1er par) -->
+    <div class="huella paso7"></div>
+    <div class="huella paso8"></div>
+    <div class="huella paso9"></div>
+    <div class="huella paso10"></div>
+    <div class="huella paso11"></div>
+    <div class="huella paso12"></div>
+
+    <!-- Huellas con zapatos (2do par más separado) -->
+    <div class="huella paso13"></div>
+    <div class="huella paso14"></div>
+    <div class="huella paso15"></div>
+    <div class="huella paso16"></div>
+    <div class="huella paso17"></div>
+    <div class="huella paso18"></div>
+
+    <!-- Mensaje -->
+    <div class="mensaje">
+      <div class="linea linea1">Donde vayas,</div><br />
+      <div class="linea linea2">quiero caminar contigo.</div>
+    </div>
+
+    <!-- Botón de música -->
+    <button id="musicButton" onclick="reproducirMusica()"></button>
+
+    <!-- Audio -->
+    <audio id="audio" src="tuAudio.m4a" preload="auto"></audio>
+
+  </div>
+
+  <script>
+    const correctPassword = '74513'; // Cambia la contraseña aquí
+    const passwordForm = document.getElementById('passwordForm');
+    const contenido = document.getElementById('contenido');
+    const errorMessage = document.getElementById('errorMessage');
+
+    function validarContraseña() {
+      const passwordInput = document.getElementById('passwordInput').value;
+      
+      if (passwordInput === correctPassword) {
+        // Si la contraseña es correcta, mostrar contenido
+        passwordForm.style.display = 'none';
+        contenido.style.display = 'block';
+      } else {
+        // Si la contraseña es incorrecta, mostrar mensaje de error
+        errorMessage.style.display = 'block';
+      }
+    }
+
+    function reproducirMusica() {
+      const audio = document.getElementById('audio');
+      audio.play();
+    }
+  </script>
+
+</body>
+</html>
